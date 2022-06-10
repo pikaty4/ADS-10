@@ -6,9 +6,9 @@
 #include <string>
 
 struct Node {
-    char symbol;
+    char sym;
     Node *parent;
-    std::vector<Node> variants;
+    std::vector<Node> var;
 };
 
 class Tree {
@@ -21,20 +21,20 @@ class Tree {
     }
     void createNode(Node* head, std::vector<char> array) {
         for (int i = 0; i < array.size(); i++) {
-            Node *elem = new Node();
-            elem->symbol = array[i];
-            head->variants.push_back(*elem);
+            Node *el = new Node();
+            el->sym = array[i];
+            head->var.push_back(*el);
             if (array.size() > 0) {
-                createNode(&head->variants[i], expectArray(array, array[i]));
+                createNode(&head->var[i], expectArray(array, array[i]));
             }
         }
     }
     void link(Node *head) {
-        for (Node &child : head->variants) {
+        for (Node &child : head->var) {
             child.parent = head;
             link(&child);
         }
-        if (head->variants.size() == 0) {
+        if (head->var.size() == 0) {
             permutations.push_back(*head);
         }
     }
@@ -54,14 +54,14 @@ class Tree {
         if (number > permutations.size()) {
             return {};
         }
-        std::vector<char> result;
+        std::vector<char> res;
         Node current = permutations[number-1];
         while (current.parent) {
-            result.push_back(current.symbol);
+            res.push_back(current.sym);
             current = *current.parent;
         }
-        std::reverse(result.begin(), result.end());
-        return result;
+        std::reverse(res.begin(), res.end());
+        return res;
     }
 };
 
